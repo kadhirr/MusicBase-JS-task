@@ -3,8 +3,6 @@ import {getData} from './dataHelpers.js'
 let respData = null;
 
 
-const event = new Event("build");
-
 
 function checkIfMoreDataExists(){
     const tBody = document.querySelector('tbody');
@@ -57,6 +55,7 @@ async function fillTable(){
 
 }
 
+
 fillTable();
 
 
@@ -68,6 +67,9 @@ document.querySelector("#btn-load-more").addEventListener('click', (event)=> {
 const intersectionObserver = new IntersectionObserver((entries) => {
     console.log("INTERSECTION");
     if (entries[0].intersectionRatio <= 0.75) return;
+    if (document.querySelector("tbody").childElementCount == respData.payload.length){
+        return;
+    }
     fillTable();
 }, 
 {
@@ -92,7 +94,7 @@ const config = { attributes: true, childList: true, subtree: true };
 
 // Callback function to execute when mutations are observed
 const callback = (mutationList, observer) => {
-  console.log(mutationList);
+//   console.log("MUTATELIST",mutationList);
   const prevObservedElement = document.querySelector("tr:nth-last-child(22)");
   console.log("prev",prevObservedElement);
   if (prevObservedElement !== null){
@@ -106,7 +108,40 @@ const callback = (mutationList, observer) => {
 const observer = new MutationObserver(callback);
 
 // Start observing the target node for configured mutations
-observer.observe(targetNode, config);
+// observer.observe(targetNode, config);
+
+
+
+/* AUTOLOAD LOGIC */
+
+function autoLoadSetupUtil() {
+    intersectionObserver.disconnect();
+    const sel = document.querySelector("tr:nth-last-child(2)");
+    intersectionObserver.observe(sel);
+    observer.observe(targetNode, config);
+}
+
+function autoLoadDestructUtil () {
+    observer.disconnect()
+    intersectionObserver.disconnect();
+}
+
+document.querySelector("#auto-load").addEventListener("change",
+(event) => {
+    if (event.target.checked){
+        // Start Mutation Observer
+    const targetNode = document.querySelector("table");
+        // observer.observe(targetNode, config);
+        autoLoadSetupUtil();
+        console.log("checked", observer,targetNode)
+        document.querySelector("#btn-load-more").style.display = 'none';
+    } else {
+        // observer.disconnect();
+        autoLoadDestructUtil();
+        document.getElementById("btn-load-more").style.display = '';
+
+    }
+})
 
 
 /* MODAL LOGIC */
@@ -135,5 +170,3 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
-
-
