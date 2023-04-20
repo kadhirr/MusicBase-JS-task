@@ -1,4 +1,7 @@
 import {getData} from './dataHelpers.js'
+import { defineCustomModal } from './modal.js';
+
+
 
 let respData = null;
 
@@ -16,9 +19,20 @@ async function fetchData(){
     respData = await getData();
 }
 
+function hideLoader(){
+    const loading = document.querySelector('#loading');
+    loading.classList.remove('display');
+    loading.style.display = 'none';
+    document.getElementById('myContainer').style.display = 'block';
+
+}
+
 async function fillTable(){
     if (respData === null){
         await fetchData();
+    }
+    if (document.querySelector('tbody').childElementCount == 0){
+        hideLoader();
     }
     const data = respData;
     console.log(data,data.payload);
@@ -40,23 +54,35 @@ async function fillTable(){
             actionsData.classList.add("actions");
             const viewAction = document.createElement('span');
             const editAction = document.createElement('span');
+            const deleteAction = document.createElement('span');
             viewAction.appendChild(document.createTextNode('visibility'));
             editAction.appendChild(document.createTextNode('edit'));
+            deleteAction.appendChild(document.createTextNode('delete'));
             viewAction.dataset.id = data.payload[i].id;
             editAction.dataset.id = data.payload[i].id;
+            deleteAction.dataset.id = data.payload[i].id;
             viewAction.classList.add("material-symbols-outlined");
             editAction.classList.add("material-symbols-outlined");
-            actionsData.append(viewAction,editAction);
+            deleteAction.classList.add("material-symbols-outlined");
+            actionsData.append(viewAction,editAction,deleteAction);
             row.appendChild(actionsData);
             tBody.appendChild(row);
         }
     }
+    
     checkIfMoreDataExists();
 
 }
 
 
-fillTable();
+function pageInitialSetup() {
+    defineCustomModal();
+    document.getElementById('myContainer').style.display = 'none';
+    const loader = document.getElementById('loading');
+    loader.classList.add('display');
+    fillTable();
+};
+pageInitialSetup();
 
 
 document.querySelector("#btn-load-more").addEventListener('click', (event)=> {
@@ -144,29 +170,23 @@ document.querySelector("#auto-load").addEventListener("change",
 })
 
 
-/* MODAL LOGIC */
-// Get the modal
-var modal = document.getElementById('myModal');
+// MODAL EVENT LISTENER - DIALOG
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+const dialog = document.querySelector("dialog")
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+document.querySelector("#openDialog").addEventListener("click", (e) => {
+    dialog.showModal();
+    document.querySelector("body").classList.add("overflow-hidden");
+})
 
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
+// document.querySelector("#closeDialog").addEventListener("click",(e) => {
+//     dialog.close();
+//     document.querySelector("body").classList.remove("overflow-hidden");
+// })
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+document.querySelector("#modal-cmp").addEventListener('click', (e) => {
+    const modalEle = document.createElement('x-modal');
+    document.querySelector('body').appendChild(modalEle);
+    document.querySelector("x-modal").shadowRoot.children[0].children[1].showModal();
+})

@@ -220,26 +220,135 @@ td {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
+/* Toggle Switch Styles */
+.cm-toggle {
+	-webkit-appearance: none;
+	-webkit-tap-highlight-color: transparent;
+	position: relative;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+	margin: 10px;
+}
+
+
+/* To create surface of toggle button */
+.cm-toggle:after {
+	content: '';
+	width: 60px;
+	height: 28px;
+	display: inline-block;
+	background: rgba(196, 195, 195, 0.55);
+	border-radius: 18px;
+	clear: both;
+}
+
+
+/* Contents before checkbox to create toggle handle */
+.cm-toggle:before {
+	content: '';
+	width: 32px;
+	height: 32px;
+	display: block;
+	position: absolute;
+	left: 0;
+	top: -3px;
+	border-radius: 50%;
+	background: rgb(255, 255, 255);
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+
+/* Shift the handle to left on check event */
+.cm-toggle:checked:before {
+	left: 32px;
+	box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+/* Background color when toggle button will be active */
+.cm-toggle:checked:after {
+	background: #16a085;
+}
+
+/* Transition for smoothness */
+.cm-toggle,
+.cm-toggle:before,
+.cm-toggle:after,
+.cm-toggle:checked:before,
+.cm-toggle:checked:after {
+	transition: ease .3s;
+	-webkit-transition: ease .3s;
+	-moz-transition: ease .3s;
+	-o-transition: ease .3s;
+}
+
+
+/* DIALOG STYLES */
+
+dialog::backdrop {
+  backdrop-filter: blur(1px);
+  overscroll-behavior: contain;
+  transition: backdrop-filter 0.5s ease;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+dialog {
+  border: 0.5px solid grey;
+  box-shadow: 2px 2px 2px aqua;
   margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
 }
 
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+dialog[open] {
+  opacity: 1;
+  transition: all 1s;
 }
 
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+dialog:not([open]) {
+  pointer-events: none;
+  opacity: 0;
+}
+
+
+@keyframes animate-top {
+  from {
+        top:-100px; 
+        opacity:0
+    } 
+    to {
+        top:0; 
+        opacity:1
+    }
+}
+
+.animate {
+  animation-name: animate-top;
+  animation-duration: 0.4s;
+}
+
+/* LOADER ANIMATION */
+
+#loading {
+  width: 2rem;
+  height: 2rem;
+  border: 5px solid #f3f3f3;
+  border-top: 6px solid #9c41f2;
+  border-radius: 100%;
+  margin: auto;
+  visibility: hidden;
+  animation: spin 1s infinite linear;
+}
+
+#loading.display {
+  visibility: visible;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
