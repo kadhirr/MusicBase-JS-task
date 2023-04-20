@@ -9,6 +9,7 @@ export function defineCustomModal(){
         }
       
         _render() {
+          document.querySelector("body").classList.add("overflow-hidden");
           const container = document.createElement("div");
           container.innerHTML = `
             <style>
@@ -54,20 +55,29 @@ export function defineCustomModal(){
                 animation-name: animate-top;
                 animation-duration: 0.4s;
               }
+
+              ::slotted(h1:first-child) {
+                color: red;
+              }
             </style>
             <dialog class="animate">
-            <h2>Hello</h2>
+            <slot name="id"></slot>
+            <slot name="userid"></slot>
+            <slot name="title"></slot>
             <button id="closeDialog">Close</button>
           </dialog> `;
           
           const shadowRoot = this.attachShadow({ mode: "open" });
           shadowRoot.appendChild(container);
-          console.log()
+          // Fix for bug when scroll not restored after closing dialog with esc key
+          shadowRoot.querySelector('dialog').addEventListener('close',(e) => {
+            document.querySelector("body").classList.remove("overflow-hidden");
+          })
           const closeBtn = shadowRoot.querySelector('#closeDialog');
           closeBtn.addEventListener('click', (e)=>{
             shadowRoot.children[0].children[1].close();
             document.querySelector("body").classList.remove("overflow-hidden");
-
+            document.querySelector('x-modal').remove();
           })
         }
       }

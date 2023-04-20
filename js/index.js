@@ -5,6 +5,29 @@ import { defineCustomModal } from './modal.js';
 
 let respData = null;
 
+let globalConfig = {
+    // regular defaults, edge cases are handled
+    // sortCol: {
+    //     name: null,
+    //     ascOrder: true
+    // },
+    // below is a sensible default based on the assumption that backend sends data 
+    // sorted based on ID
+    sortCol: {
+        name: 'ID',
+        ascOrder: true
+    },
+    options: {
+        autoload: false,
+        autosort: false
+    },
+    idStore: {
+        'ID': 0,
+        'User ID': 1,
+        'Title': 2
+    }
+};
+
 
 
 function checkIfMoreDataExists(){
@@ -64,12 +87,15 @@ async function fillTable(){
             viewAction.classList.add("material-symbols-outlined");
             editAction.classList.add("material-symbols-outlined");
             deleteAction.classList.add("material-symbols-outlined");
+            viewAction.addEventListener('click',viewActionModal);
             actionsData.append(viewAction,editAction,deleteAction);
             row.appendChild(actionsData);
             tBody.appendChild(row);
         }
     }
-    
+    if (globalConfig.options.autosort && globalConfig.sortCol.name !== null){
+        showSortedItems(globalConfig.sortCol.name); 
+    }
     checkIfMoreDataExists();
 
 }
@@ -116,7 +142,7 @@ var options = {
 const targetNode = document.querySelector("table");
 
 // Options for the observer (which mutations to observe)
-const config = { attributes: true, childList: true, subtree: true };
+const mutationObserverConfig = { attributes: true, childList: true, subtree: true };
 
 // Callback function to execute when mutations are observed
 const callback = (mutationList, observer) => {
@@ -144,7 +170,7 @@ function autoLoadSetupUtil() {
     intersectionObserver.disconnect();
     const sel = document.querySelector("tr:nth-last-child(2)");
     intersectionObserver.observe(sel);
-    observer.observe(targetNode, config);
+    observer.observe(targetNode, mutationObserverConfig);
 }
 
 function autoLoadDestructUtil () {
@@ -160,11 +186,15 @@ document.querySelector("#auto-load").addEventListener("change",
         // observer.observe(targetNode, config);
         autoLoadSetupUtil();
         console.log("checked", observer,targetNode)
-        document.querySelector("#btn-load-more").style.display = 'none';
+        if (document.querySelector('tbody').children.length !== respData.payload.length){
+            document.querySelector("#btn-load-more").style.display = 'none';
+        }
     } else {
         // observer.disconnect();
         autoLoadDestructUtil();
-        document.getElementById("btn-load-more").style.display = '';
+        if (document.querySelector('tbody').children.length !== respData.payload.length){
+            document.getElementById("btn-load-more").style.display = '';
+        }
 
     }
 })
@@ -172,21 +202,101 @@ document.querySelector("#auto-load").addEventListener("change",
 
 // MODAL EVENT LISTENER - DIALOG
 
-const dialog = document.querySelector("dialog")
-
-document.querySelector("#openDialog").addEventListener("click", (e) => {
-    dialog.showModal();
-    document.querySelector("body").classList.add("overflow-hidden");
-})
-
-// document.querySelector("#closeDialog").addEventListener("click",(e) => {
-//     dialog.close();
-//     document.querySelector("body").classList.remove("overflow-hidden");
-// })
-
 
 document.querySelector("#modal-cmp").addEventListener('click', (e) => {
     const modalEle = document.createElement('x-modal');
+
     document.querySelector('body').appendChild(modalEle);
     document.querySelector("x-modal").shadowRoot.children[0].children[1].showModal();
 })
+
+
+// SEARCH AND FILTER EVENT LISTENERS
+
+document.querySelector("#search-bar input").addEventListener('input',(event) => {
+    console.log(event.target.value);
+    showFilteredItems(event.target.value);
+})
+
+document.querySelectorAll('th:not(:last-child)').forEach((item) => {
+    item.addEventListener('click', (e) => {
+        if (globalConfig.sortCol.name == e.target.innerText){
+            globalConfig.sortCol.ascOrder = !globalConfig.sortCol.ascOrder;
+        }
+        else{
+            globalConfig.sortCol.name = e.target.innerText;
+            globalConfig.sortCol.ascOrder = true;
+        }
+        console.log("sortconfig",globalConfig.sortCol);
+        showSortedItems(e.target.textContent);
+    })
+})
+
+
+
+function showFilteredItems(searchTerm){
+    Array.from(document.querySelector('tbody').children).map((entry) => {
+        // Get the textcontent of title, convert it to lowercase and compare if it contains a substring of the searchterm, 
+        // which is also converted to lowecase. The whole comparsion is negated, so if it the row doesnt contain the query,
+        // it is removed from the table, else it is added back. 
+        if (!entry.children[2].textContent.toLowerCase().includes(searchTerm.toLowerCase())){
+            entry.classList.add('display-none');
+        }
+        else{
+            entry.classList.remove('display-none');
+        }
+    })
+
+}
+
+function showSortedItems(key){
+    console.log("key",key);
+    var collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      });
+    const parent = document.querySelector('tbody');
+    const items = Array.from(parent.children);
+    let sortedItems = items.sort((a,b) => {
+        const x =  a.children[globalConfig.idStore[key]].innerText;
+        const y = b.children[globalConfig.idStore[key]].innerText;
+        return collator.compare(x, y);
+    })
+    if (!globalConfig.sortCol.ascOrder){
+        sortedItems.reverse();
+    }
+    sortedItems.forEach(element => parent.appendChild(element));
+}  
+
+// Query Selector for Auto Sort
+document.querySelector('#auto-sort').addEventListener('change',(e) => {
+    globalConfig.options.autosort = !globalConfig.options.autosort;
+})
+
+// MODAL EVENT LISTENER FOR VIEW ACTION
+function viewActionModal(e){
+    const id = e.target.dataset.id;
+    const modalEle = document.createElement('x-modal');
+
+    // Add userId h1 element with slot
+    const IdEle = document.createElement('h1');
+    IdEle.innerText = 'ID: ' + respData.payload[id].id;
+    IdEle.setAttribute('slot','id');
+    modalEle.appendChild(IdEle);
+
+    // Add title h1 element with slot
+    const userIdEle = document.createElement('h1');
+    userIdEle.innerText = ' User ID: ' + respData.payload[id].userId;
+    userIdEle.setAttribute('slot','userid');
+    modalEle.appendChild(userIdEle);
+
+    // Add Title h1 element with slot
+    const titleEle = document.createElement('h1');
+    titleEle.innerText = 'Title: ' + respData.payload[id].title;
+    titleEle.setAttribute('slot','title');
+    modalEle.appendChild(titleEle);
+
+    document.querySelector('body').appendChild(modalEle);
+    console.log(modalEle);  
+    document.querySelector("x-modal").shadowRoot.children[0].children[1].showModal();
+}

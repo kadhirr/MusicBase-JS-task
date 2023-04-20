@@ -115,10 +115,16 @@ table {
   border: 2px solid pink;
 }
 
+/* CONTROLS */
 #controls {
   display: flex;
   justify-content: center;
   gap: 1rem;
+}
+
+.controls-inp-group{
+  display: flex;
+  place-items: center;
 }
 
 #create-item {
@@ -153,6 +159,7 @@ thead {
 .actions span {
   padding: 0.5rem;
   background-color: #B27092;
+  border: 1px solid #B27092;
   border-radius: 10%;
 
 }
@@ -169,10 +176,32 @@ td {
   padding: 1rem;
 }
 
+.actions span {
+  cursor: pointer;
+  transition: 0.25s all;
+
+}
+
+.actions span:hover {
+  background-color: white;
+  color: #B27092;
+}
+
+.actions span:last-child {
+  background-color: red;
+  color: white;
+  border: 1px solid red;
+}
+
+.actions span:last-child:hover {
+  background-color: white;
+  color: red;
+}
+
 
 /** MODAL STYLES **/
 
-.Modal {
+/* .Modal {
   display: block;
   position: fixed;
   left: 0;
@@ -203,9 +232,8 @@ td {
 .is-blurred {
   filter: blur(2px);
   -webkit-filter: blur(2px);
-}
+} */ 
 
-/* MODAL STYLES */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -222,6 +250,7 @@ td {
 
 /* Toggle Switch Styles */
 .cm-toggle {
+  appearance: none;
 	-webkit-appearance: none;
 	-webkit-tap-highlight-color: transparent;
 	position: relative;
@@ -352,3 +381,33 @@ dialog:not([open]) {
     transform: rotate(360deg);
   }
 }
+
+
+.display-none {
+  display: none;
+}
+
+/* STYLE FOR TEXT UNDERLINE ON HOVER */
+.hover-underline-animation {
+  position: relative;
+  /* color: #FFFFFF; */
+  text-decoration: none;
+}
+
+.hover-underline-animation::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #ffff00;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+} 

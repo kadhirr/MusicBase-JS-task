@@ -23,15 +23,18 @@
     </div>
     <div id="controls">
       <button id="create-item">Create</button>
-      <div>
+      <div class="controls-inp-group">
         <input type="checkbox" id="auto-load" class="cm-toggle"><label for="auto-load">Auto-Load</label>
+      </div>
+      <div class="controls-inp-group">
+        <input type="checkbox" id="auto-sort" class="cm-toggle"><label for="auto-sort">Auto Sort</label>
       </div>
     </div>
     <table>
       <thead>
-        <th>ID</th>
-        <th>User ID</th>
-        <th>Title</th>
+        <th><span class="hover-underline-animation">ID</span></th>
+        <th><span class="hover-underline-animation">User ID</span></th>
+        <th><span class="hover-underline-animation">Title</span></th>
         <th>Actions</th>
       </thead>
       <tbody>
@@ -42,11 +45,6 @@
 
 
 <div id="loading"></div>
-<button id="openDialog">Modal 2 with Dialog</button>
-<dialog class="animate">
-  <h2>Hello</h2>
-  <button id="closeDialog">Close</button>
-</dialog>  
 <button id="modal-cmp">Custom Modal Component</button>
   <script type="module" src="/js/index.js"></script>
 
