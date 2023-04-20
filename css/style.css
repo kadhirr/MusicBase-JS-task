@@ -1,0 +1,245 @@
+/** STYLE RESET **/
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  3. Allow percentage-based heights in the application
+*/
+html, body {
+  height: 100%;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  7. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
+}
+/*
+  8. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+/*
+  9. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
+
+/** TABLE RESET **/
+
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+/** G ICONS **/
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+/** STYLES **/
+
+
+#navbar {
+  display: flex;
+  padding: 2rem;
+  padding-left: 1rem;
+  background-color: #B27092;
+  font-family: monospace;
+}
+
+#navbar div {
+  font-weight: 600;
+  color: white;
+  font-size: x-large;
+}
+
+#search-bar {
+  margin: 2rem 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  
+}
+
+#search-bar input {
+  min-width: 40vw;
+  border: 2px solid black;
+  outline: none;
+  transition: all 0.25s;
+}
+
+#search-bar input:focus {
+  border: 2px solid pink;
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#create-item {
+  border: 1px solid lightgrey;
+  background-color: #FFE9F3;
+  border-radius: 3px;
+  transition: all 0.5s;
+}
+
+#create-item:hover {
+  border: 1px solid black;
+}
+
+table {
+  margin: auto;
+  width: 80%;
+  text-align: center;
+}
+
+thead {
+  background-color: aquamarine;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  justify-content: center;
+  color: white;
+}
+
+.actions span {
+  padding: 0.5rem;
+  background-color: #B27092;
+  border-radius: 10%;
+
+}
+
+tr {
+  border-bottom: 1px solid grey;
+  border-left: 1px solid grey;
+  border: 1px solid grey;
+  /* border-top: none; */
+}
+
+
+td {
+  padding: 1rem;
+}
+
+
+/** MODAL STYLES **/
+
+.Modal {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  padding-top: 100px;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-transition: 0.5s;
+  overflow: auto;
+  transition: all 0.3s linear;
+}
+.Modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border-radius: 4px;
+  max-width: 300px;
+  height: 450px;
+}
+.ModalOpen { overflow: hidden; }
+.is-hidden { display: none; }
+.is-visuallyHidden { opacity: 0; }
+
+
+.is-blurred {
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+}
+
+/* MODAL STYLES */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
