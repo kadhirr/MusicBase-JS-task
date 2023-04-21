@@ -1,18 +1,17 @@
-export function defineCustomModal(){
-    class Modal extends HTMLElement {
-        constructor() {
-          super();
-        }
-      
-        connectedCallback() {
-          this._render();
-        }
-      
-        _render() {
-          document.querySelector("body").classList.add("overflow-hidden");
-          const container = document.createElement("div");
-          container.innerHTML = 
-          `<style>
+class ViewModal extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this._render();
+  }
+
+  _render() {
+    document.querySelector("body").classList.add("overflow-hidden");
+    const container = document.createElement("div");
+    container.innerHTML =
+      `<style>
             dialog::backdrop {
                 backdrop-filter: blur(1px);
                 overscroll-behavior: contain;
@@ -78,21 +77,20 @@ export function defineCustomModal(){
             <slot name="title"></slot>
             <button id="closeDialog">Close</button>
           </dialog> `;
-          
-          const shadowRoot = this.attachShadow({ mode: "open" });
-          shadowRoot.appendChild(container);
-          // Fix for bug when scroll not restored after closing dialog with esc key
-          shadowRoot.querySelector('dialog').addEventListener('close',(e) => {
-            document.querySelector("body").classList.remove("overflow-hidden");
-            document.querySelector('x-modal').remove();
-          })
-          const closeBtn = shadowRoot.querySelector('#closeDialog');
-          closeBtn.addEventListener('click', (e)=>{
-            shadowRoot.children[0].children[1].close();
-            document.querySelector("body").classList.remove("overflow-hidden");
-            document.querySelector('x-modal').remove();
-          })
-        }
-      }
-      window.customElements.define("x-modal", Modal);
+
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    shadowRoot.appendChild(container);
+    // Fix for bug when scroll not restored after closing dialog with esc key
+    shadowRoot.querySelector('dialog').addEventListener('close', (e) => {
+      document.querySelector("body").classList.remove("overflow-hidden");
+      document.querySelector('view-modal').remove();
+    })
+    const closeBtn = shadowRoot.querySelector('#closeDialog');
+    closeBtn.addEventListener('click', (e) => {
+      console.log("before", document.querySelector('view-modal'));
+      shadowRoot.children[0].children[1].close();
+      document.querySelector("body").classList.remove("overflow-hidden");
+    })
+  }
 }
+window.customElements.define("view-modal", ViewModal);

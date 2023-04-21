@@ -98,7 +98,7 @@ table {
 
 #search-bar {
   margin: 2rem 0;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   
@@ -246,6 +246,10 @@ td {
   filter: blur(2px);
   -webkit-filter: blur(2px);
 } */ 
+
+.overflow-hidden {
+  overflow: hidden;
+}
 
 .modal {
   display: none; /* Hidden by default */
