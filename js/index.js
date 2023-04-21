@@ -220,15 +220,27 @@ document.querySelector("#search-bar input").addEventListener('input',(event) => 
 
 document.querySelectorAll('th:not(:last-child)').forEach((item) => {
     item.addEventListener('click', (e) => {
-        if (globalConfig.sortCol.name == e.target.innerText){
+        if (globalConfig.sortCol.name == item.children[0].innerText){
             globalConfig.sortCol.ascOrder = !globalConfig.sortCol.ascOrder;
         }
         else{
-            globalConfig.sortCol.name = e.target.innerText;
+            globalConfig.sortCol.name = item.children[0].innerText;
             globalConfig.sortCol.ascOrder = true;
         }
+        console.log(item);
+
+        // CLEAR PREVIOUS SORT INDICATORS
+        document.querySelectorAll('.sort-indicator').forEach( (item) => {
+            item.setAttribute('data-after','');
+        })
+
+        // SET THE SORT INDICATOR
+        let sortIndicatorValue = '';
+        sortIndicatorValue = globalConfig.sortCol.ascOrder ? '▲' : '▼';
+        console.log(item.children[0].children);
+        item.children[0].children[0].setAttribute('data-after',sortIndicatorValue)
         console.log("sortconfig",globalConfig.sortCol);
-        showSortedItems(e.target.textContent);
+        showSortedItems(item.children[0].innerText);
     })
 })
 

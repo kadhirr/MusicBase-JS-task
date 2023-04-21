@@ -152,6 +152,11 @@ thead {
   background-color: aquamarine;
 }
 
+.sort-indicator::after {
+  content:attr(data-after);
+  padding-left: 0.25rem;
+}
+
 .actions {
   display: flex;
   gap: 0.5rem;
@@ -314,51 +319,6 @@ td {
 	-o-transition: ease .3s;
 }
 
-
-/* DIALOG STYLES */
-
-dialog::backdrop {
-  backdrop-filter: blur(1px);
-  overscroll-behavior: contain;
-  transition: backdrop-filter 0.5s ease;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-dialog {
-  border: 0.5px solid grey;
-  box-shadow: 2px 2px 2px aqua;
-  margin: auto;
-}
-
-dialog[open] {
-  opacity: 1;
-  transition: all 1s;
-}
-
-dialog:not([open]) {
-  pointer-events: none;
-  opacity: 0;
-}
-
-
-@keyframes animate-top {
-  from {
-        top:-100px; 
-        opacity:0
-    } 
-    to {
-        top:0; 
-        opacity:1
-    }
-}
-
-.animate {
-  animation-name: animate-top;
-  animation-duration: 0.4s;
-}
 
 /* LOADER ANIMATION */
 
