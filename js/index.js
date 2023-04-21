@@ -275,7 +275,7 @@ document.querySelector('#auto-sort').addEventListener('change',(e) => {
 
 // MODAL EVENT LISTENER FOR VIEW ACTION
 function viewActionModal(e){
-    const id = e.target.dataset.id;
+    const id = parseInt(e.target.dataset.id) - 1;
     const modalEle = document.createElement('x-modal');
 
     // Add userId h1 element with slot

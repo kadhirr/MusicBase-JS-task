@@ -104,6 +104,10 @@ table {
   
 }
 
+#search-bar input::placeholder {
+  text-align: center;
+}
+
 #search-bar input {
   min-width: 40vw;
   border: 2px solid black;
