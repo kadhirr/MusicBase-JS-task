@@ -152,6 +152,10 @@ thead {
   background-color: aquamarine;
 }
 
+th:not(:last-child) span {
+  cursor: pointer;
+}
+
 .sort-indicator::after {
   content:attr(data-after);
   padding-left: 0.25rem;
