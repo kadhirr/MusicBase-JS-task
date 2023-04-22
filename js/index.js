@@ -5,10 +5,29 @@ import './createModal.js';
 import './editModal.js';
 
 // CUSTOM EVENT TO TRIGGER TABLE REBUILD
-const event = new Event("rebuild-table");
 
 document.addEventListener('rebuild-table', (e) => {
-    alert('custom alert triggered');
+    respData = JSON.parse(localStorage.getItem('data'));
+    const inputEle = document.querySelector('#search').value;
+    if (e.detail.action == 'delete'){
+        document.querySelector(`td[data-id="${e.detail.id}"]`).parentElement.remove();
+    }
+    if(e.detail.action == 'update'){
+        // data to update
+        const data = respData.payload.filter((d) => d.id == e.detail.id)[0];
+        // update table row using selector
+        const parentEle = document.querySelector(`td[data-id="${e.detail.id}"]`).parentElement;
+        console.log("parent",parentEle);
+        console.log("child1",parentEle.children[1]);
+        console.log("child2",parentEle.children[2]);
+        parentEle.children[1].innerText = data.userId;
+        parentEle.children[2].innerText = data.title;
+        // call search
+        const searchTerm = document.querySelector("#search").value;
+        showFilteredItems(searchTerm);
+        // call sort
+        showSortedItems(globalConfig.sortCol.name);
+    }
 })
 
 var respData = null;
@@ -306,28 +325,33 @@ function showSortedItems(key) {
 // Query Selector for Auto Sort
 document.querySelector('#auto-sort').addEventListener('change', (e) => {
     globalConfig.options.autosort = !globalConfig.options.autosort;
+    showSortedItems(globalConfig.sortCol.name);
+
 })
 
 // MODAL EVENT LISTENER FOR VIEW ACTION
 function viewActionModal(e) {
-    const id = parseInt(e.target.dataset.id) - 1;
+    // const id = parseInt(e.target.dataset.id) - 1;
+    const id = parseInt(e.target.dataset.id);
     const modalEle = document.createElement('view-modal');
 
+    const data = respData.payload.filter((d) => d.id == id)[0];
+    console.log("hello",id,data);
     // Add userId h1 element with slot
     const IdEle = document.createElement('h1');
-    IdEle.innerText = 'ID: ' + respData.payload[id].id;
+    IdEle.innerText = 'ID: ' + data.id;
     IdEle.setAttribute('slot', 'id');
     modalEle.appendChild(IdEle);
 
     // Add title h1 element with slot
     const userIdEle = document.createElement('h1');
-    userIdEle.innerText = ' User ID: ' + respData.payload[id].userId;
+    userIdEle.innerText = ' User ID: ' + data.userId;
     userIdEle.setAttribute('slot', 'userid');
     modalEle.appendChild(userIdEle);
 
     // Add Title h1 element with slot
     const titleEle = document.createElement('h1');
-    titleEle.innerText = 'Title: ' + respData.payload[id].title;
+    titleEle.innerText = 'Title: ' + data.title;
     titleEle.setAttribute('slot', 'title');
     modalEle.appendChild(titleEle);
 
@@ -347,11 +371,14 @@ document.querySelector('#create-item').addEventListener('click', (e) => {
 
 // EDIT BUTTON CALLBACK FUNCTION
 function editActionModal(e){
-    const id = parseInt(e.target.dataset.id) - 1;
+    // const id = parseInt(e.target.dataset.id) - 1;
+    const id = parseInt(e.target.dataset.id)
+    const data = respData.payload.filter((d) => d.id == id)[0];
+
     const modalEle = document.createElement('edit-modal');
     modalEle.dataset.id = e.target.dataset.id;
-    modalEle.dataset.userid = respData.payload[id].userId;
-    modalEle.dataset.title = respData.payload[id].title;
+    modalEle.dataset.userid = data.userId;
+    modalEle.dataset.title = data.title;
 
     document.querySelector('body').appendChild(modalEle);
     console.log(modalEle);
@@ -362,10 +389,12 @@ function editActionModal(e){
 
 
 function deleteActionModal(e){
-    const id = parseInt(e.target.dataset.id) - 1;
+    // const id = parseInt(e.target.dataset.id) - 1;
+    const id = parseInt(e.target.dataset.id);
+    const data = respData.payload.filter((d) => d.id == id)[0];
     const modalEle = document.createElement('toast-modal');
     modalEle.dataset.id = e.target.dataset.id;
-    modalEle.dataset.title = respData.payload[id].title;
+    modalEle.dataset.title = data.title;
     document.querySelector('body').appendChild(modalEle);
     document.querySelector("toast-modal").shadowRoot.children[0].children[1].showModal();
 }

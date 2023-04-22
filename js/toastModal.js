@@ -83,19 +83,19 @@ class Toast extends HTMLElement {
       // Fix for bug when scroll not restored after closing dialog with esc key
       shadowRoot.querySelector('dialog').addEventListener('close', (e) => {
         document.querySelector('toast-modal').remove();
+        document.querySelector("body").classList.remove("overflow-hidden");
+
       });
       const closeBtn = shadowRoot.querySelector('#closeDialog');
       closeBtn.addEventListener('click', (e) => {
         shadowRoot.children[0].children[1].close();
-        document.querySelector("body").classList.remove("overflow-hidden");
       });
 
       // CONFIRM DELETE BUTTON EVENT LISTENER
       const confirmBtn = shadowRoot.querySelector('#confirm-action');
       confirmBtn.addEventListener('click', (e) => {
-        const event = new Event("rebuild-table");
+        const event = new CustomEvent("rebuild-table",{detail: {action: 'delete', id: this.dataset.id}});
         deleteData(this.dataset.id)
-        alert('deleted');
         document.dispatchEvent(event);
         shadowRoot.children[0].children[1].close();
       });

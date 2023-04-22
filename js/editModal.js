@@ -142,8 +142,13 @@ class EditModal extends HTMLElement {
                 title: shadowRoot.querySelector('input#title').value
             }
             console.log(data);
-            const BASE_URL = JSON.parse(localStorage.getItem('config')).baseURL;
+            
+            // UPDATE AND FIRE CUSTOM EVENT
+            const event = new CustomEvent("rebuild-table",{detail: {action: 'update', id: this.dataset.id}});
+
             patchData(data.id,data.userId,data.title);
+            document.dispatchEvent(event);
+
             shadowRoot.children[0].children[1].close();
         }
         );
