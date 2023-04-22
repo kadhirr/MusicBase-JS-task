@@ -1,3 +1,4 @@
+import { patchData } from "./dataHelpers.js";
 
 class EditModal extends HTMLElement {
     constructor() {
@@ -98,7 +99,7 @@ class EditModal extends HTMLElement {
               <input type="number" id="id" disabled></input>
               </div>
               <div>
-              <label for="userId">User ID</label>
+              <label for="userid">User ID</label>
               <input type="number" id="userid"></input>
               </div>
               <div>
@@ -113,7 +114,7 @@ class EditModal extends HTMLElement {
         shadowRoot.appendChild(container);
 
         // SET VALUES OF FORM ELEMENTS
-        console.log("this",new Map(this.dataset));
+        // console.log("this",new Map(this.dataset));
         shadowRoot.querySelector("input#id").value = this.dataset.id;
         shadowRoot.querySelector("input#userid").value = this.dataset.userid;
         shadowRoot.querySelector("input#title").value = this.dataset.title;
@@ -128,29 +129,22 @@ class EditModal extends HTMLElement {
             shadowRoot.children[0].children[1].close();
             document.querySelector("body").classList.remove("overflow-hidden");
         });
+
+        // SUBMIT FORM FUNCTIONALITY
         const submitBtn = shadowRoot.querySelector('input[type=submit]');
         console.log(submitBtn);
         submitBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log("abc",shadowRoot.querySelector('input#id').value);
             const data = {
-                userId: parseInt(this.shadowRoot.querySelector('input#userId').value),
-                title: this.shadowRoot.querySelector('input#title').value
+                id: parseInt(shadowRoot.querySelector('input#id').value),
+                userId: parseInt(shadowRoot.querySelector('input#userid').value),
+                title: shadowRoot.querySelector('input#title').value
             }
             console.log(data);
             const BASE_URL = JSON.parse(localStorage.getItem('config')).baseURL;
-            fetch( BASE_URL + 'albums/', {
-                method: 'PATCH',
-                body: data
-            }).then( (r) => {
-                console.log(r.json());
-                if (r.status !== 201){
-                    alert('Create Failed!');
-                }
-            }).catch( (err) => {
-                alert('Error Occured');
-            }).finally(() => {
-                shadowRoot.children[0].children[1].close();
-            })
+            patchData(data.id,data.userId,data.title);
+            shadowRoot.children[0].children[1].close();
         }
         );
         }

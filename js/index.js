@@ -4,9 +4,14 @@ import './viewModal.js';
 import './createModal.js';
 import './editModal.js';
 
+// CUSTOM EVENT TO TRIGGER TABLE REBUILD
+const event = new Event("rebuild-table");
 
+document.addEventListener('rebuild-table', (e) => {
+    alert('custom alert triggered');
+})
 
-let respData = null;
+var respData = null;
 
 let globalConfig = localStorage.getItem('config') !== null
     ? JSON.parse(localStorage.getItem('config'))
@@ -58,8 +63,13 @@ function hideLoader() {
 }
 
 async function fillTable() {
+    // TEMPORARY CHANGES TO MAKE LOCALSTORAGE THE DB
+    if (respData === null && localStorage.getItem('data') !== null){
+        respData = JSON.parse(localStorage.getItem('data'));
+    }
     if (respData === null) {
         await fetchData();
+        localStorage.setItem('data',JSON.stringify(respData));
     }
     if (document.querySelector('tbody').childElementCount == 0) {
         hideLoader();
@@ -70,7 +80,8 @@ async function fillTable() {
         const table = document.querySelector('table');
         const tBody = document.querySelector('tbody');
         const lengthOfPrefilledData = tBody.children.length;
-        for (let i = lengthOfPrefilledData; i < lengthOfPrefilledData + 20; i++) {
+        const dataToLoad = (respData.payload.length - lengthOfPrefilledData) > 20 ? 20 : (respData.payload.length - lengthOfPrefilledData);
+        for (let i = lengthOfPrefilledData; i < lengthOfPrefilledData + dataToLoad; i++) {
             const row = document.createElement('tr');
             const dataToInsert = [data.payload[i].id, data.payload[i].userId, data.payload[i].title]
             for (const value of dataToInsert) {
@@ -96,6 +107,7 @@ async function fillTable() {
             deleteAction.classList.add("material-symbols-outlined");
             viewAction.addEventListener('click', viewActionModal);
             editAction.addEventListener('click', editActionModal);
+            deleteAction.addEventListener('click', deleteActionModal);
             actionsData.append(viewAction, editAction, deleteAction);
             row.appendChild(actionsData);
             tBody.appendChild(row);
@@ -345,3 +357,17 @@ function editActionModal(e){
     console.log(modalEle);
     document.querySelector("edit-modal").shadowRoot.children[0].children[1].showModal();
 }
+
+// DELETE BUTTON CALLBACK FUNCTION
+
+
+function deleteActionModal(e){
+    const id = parseInt(e.target.dataset.id) - 1;
+    const modalEle = document.createElement('toast-modal');
+    modalEle.dataset.id = e.target.dataset.id;
+    modalEle.dataset.title = respData.payload[id].title;
+    document.querySelector('body').appendChild(modalEle);
+    document.querySelector("toast-modal").shadowRoot.children[0].children[1].showModal();
+}
+
+// 

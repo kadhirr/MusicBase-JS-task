@@ -61,7 +61,8 @@ class ViewModal extends HTMLElement {
                       opacity:1
                   }
               }
-              
+
+
               .animate {
                 animation-name: animate-bottom;
                 animation-duration: 0.2s;
@@ -87,6 +88,7 @@ class ViewModal extends HTMLElement {
     })
     const closeBtn = shadowRoot.querySelector('#closeDialog');
     closeBtn.addEventListener('click', (e) => {
+
       console.log("before", document.querySelector('view-modal'));
       shadowRoot.children[0].children[1].close();
       document.querySelector("body").classList.remove("overflow-hidden");
