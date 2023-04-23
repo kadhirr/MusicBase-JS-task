@@ -26,7 +26,12 @@ class EditModal extends HTMLElement {
               }
               
               dialog {
-                padding: 5rem;
+                /*padding: 5rem;*/
+                display: grid;
+                grid-template:
+                ". close"
+                "form .";
+                grid-template-columns: 9fr 1fr;
                 min-height: content;
                 min-width: 50vw;
                 border: 0.5px solid grey;
@@ -43,7 +48,51 @@ class EditModal extends HTMLElement {
                 pointer-events: none;
                 opacity: 0;
               }
+
+              form {
+                grid-area: form;
+                display: grid;
+                grid-template-areas:
+                "labelid id"
+                "labeluserid userid"
+                "labeltitle title"
+                "submit submit";
+                gap: 1rem 2rem;
+              }
+
+              form label[for=userid] {
+                grid-area: labeluserid;
+                place-self: stretch end;
+
+              }
               
+              form label[for=id] {
+                grid-area: labelid;
+                place-self: stretch end;
+
+              }
+              
+              form label[for=title] {
+                grid-area: labeltitle;
+                place-self: stretch end;
+              }
+
+              input[type="submit"] {
+                grid-area: submit;
+                place-self: end;
+                width: 30%;
+                background: transparent;
+                border: 1px solid grey;
+                transition: all 0.25s;
+              }
+
+              input[type="submit"]:hover {
+                box-shadow: 1px 2px grey;
+              }
+
+              div input {
+                border: 2px solid grey;
+              }
               
               @keyframes animate-top {
                 from {
@@ -76,36 +125,34 @@ class EditModal extends HTMLElement {
                 color: red;
               }
 
-              form div {
-                display: grid;
+              #closeDialog {
+                grid-area: close;
+                max-width: max-content;
+                place-self: stretch end;
+                background: transparent;
+                border: none;
+                height: max-content;
+                padding: 0;
+                cursor: pointer;
+                margin: 0.5rem 0;
+                outline: none;
+                transition: all 0.5s;
               }
 
-              button#closeDialog{
-                background: transparent;
-                border: 2px solid red;
-                border-radius: 50%;
-                position: absolute;
-                right: 1rem;
-                top: 0.5rem;
-                text-align: center;
-                cursor: pointer;
+              #closeDialog:hover {
+                transform: scale(1.1) rotate(90deg);
               }
+
             </style>
             <dialog class="animate">
-            <button id="closeDialog">X</button>
-              <form type="dialog">
-              <div>
+            <button id="closeDialog"><img src="/assets/close.svg"></button>
+              <form method="dialog">
               <label for="id">ID</label>
               <input type="number" id="id" disabled></input>
-              </div>
-              <div>
               <label for="userid">User ID</label>
               <input type="number" id="userid"></input>
-              </div>
-              <div>
-                <label for="title">Title</label>
-                <input type="text" id="title"></input>
-              </div>
+              <label for="title">Title</label>
+              <input type="text" id="title"></input>
               <input type="submit">
               </form>
           </dialog> `;

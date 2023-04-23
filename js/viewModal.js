@@ -81,7 +81,7 @@ class ViewModal extends HTMLElement {
               }
 
               #closeDialog:hover {
-                transform: scale(1.1);
+                transform: scale(1.1) rotate(90deg);
               }
 
               #closeDialog img {
