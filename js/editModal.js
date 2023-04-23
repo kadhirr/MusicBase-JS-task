@@ -26,7 +26,7 @@ class EditModal extends HTMLElement {
               }
               
               dialog {
-                /*padding: 5rem;*/
+                padding: 1rem;
                 display: grid;
                 grid-template:
                 ". close"
