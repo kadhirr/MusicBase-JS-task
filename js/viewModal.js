@@ -25,6 +25,12 @@ class ViewModal extends HTMLElement {
               }
               
               dialog {
+                display: grid;
+                grid-template-areas: 
+                ". . close"
+                "img img img"
+                "title title title"
+                "userid userid id";
                 border: 0.5px solid grey;
                 box-shadow: 2px 2px 2px aqua;
                 margin: auto;
@@ -40,7 +46,46 @@ class ViewModal extends HTMLElement {
                 opacity: 0;
               }
               
+              #id {
+                font-size: 1.5rem;
+                grid-area: id;
+              }
+
+              #userid {
+                font-size: 1.5rem;
+                grid-area: userid;
+              }
               
+              #title {
+                font-weight: bold;
+                grid-area: title;
+                font-size: 2rem;
+              }
+
+              #closeDialog {
+                grid-area: close;
+                max-width: max-content;
+                place-self: stretch end;
+                background: transparent;
+                border: none;
+                height: max-content;
+                padding: 0;
+                cursor: pointer;
+                margin: 0.5rem 0;
+                outline: none;
+                transition: all 0.5s;
+              }
+
+              #closeDialog:hover {
+                transform: scale(1.1);
+              }
+
+              #closeDialog img {
+                margin: 0;
+                padding:0;
+                object-fit: contain;
+              }
+
               @keyframes animate-top {
                 from {
                       top:-100px; 
@@ -72,19 +117,22 @@ class ViewModal extends HTMLElement {
               ::slotted(h1:first-child) {
                 color: red;
               }
-              img {
+              #image {
+                grid-area: img;
+                place-self: stretch center;
                 max-inline-size: 100%;
                 block-size: auto;
                 object-fit: contain;
                 height: 50vh;
               }
+
             </style>
             <dialog class="animate">
-              <h1 id="id">ID: ${this.dataset.id}</h1>
-              <h1 id="userid">UserID: ${this.dataset.userId}</h1>
-              <h1 id="title" class="resp-img">Title: ${this.dataset.title}</h1>
-              <img loading="lazy">
-            <button id="closeDialog">Close</button>
+              <div id="id">ID: ${this.dataset.id}</div>
+              <div id="userid">UserID: ${this.dataset.userId}</div>
+              <div id="title" class="resp-img">Title: ${this.dataset.title}</div>
+              <img id="image" loading="lazy">
+            <button id="closeDialog"><img src="/assets/close.svg"></button>
           </dialog> `;
     // SET IMAGE SOURCE
     getPhotoURL(this.dataset.id)
