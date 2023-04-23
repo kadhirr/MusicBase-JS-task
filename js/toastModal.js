@@ -122,6 +122,7 @@ class Toast extends HTMLElement {
 
         #title-content {
           text-decoration: underline;
+          font-weight: bold;
         }
         </style>
         <dialog class="animate">

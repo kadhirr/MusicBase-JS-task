@@ -112,7 +112,12 @@ table {
   width: 100%;
   display: flex;
   justify-content: center;
-  
+}
+
+.create-item-bar {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 #search-bar input::placeholder {
@@ -335,3 +340,23 @@ td {
   transform: scaleX(1);
   transform-origin: bottom left;
 } 
+
+
+/* LOAD MORE BUTTON */
+#btn-load-more {
+  background-color: #05bfdb;
+  border: 1px solid grey;
+  transition: all 0.5s;
+  color: white;
+}
+
+
+#btn-load-more:hover {
+  transform: scale(1.05);
+}
+
+.btn-div {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}

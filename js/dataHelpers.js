@@ -48,3 +48,19 @@ export async function getPhotoURL(id){
     .then(r => r[0].url);
     return PHOTO_URL;
 }
+
+export function createAlbum(userId,title) {
+    if (title == null || userId == null){
+        return {status:"err"}
+    }
+    let data = JSON.parse(localStorage.getItem('data'));
+    const lastId = Math.max(...data.payload.map(d => d.id));
+    console.log(lastId);
+    let newData = {
+        id: lastId + 1,
+        userId,
+        title
+    }
+    data.payload.push(newData);
+    localStorage.setItem('data',JSON.stringify(data));
+}

@@ -1,3 +1,4 @@
+import { createAlbum } from "./dataHelpers.js";
 
 class CreateModal extends HTMLElement {
     constructor() {
@@ -125,21 +126,11 @@ class CreateModal extends HTMLElement {
                 userId: parseInt(this.shadowRoot.querySelector('input#userId').value),
                 title: this.shadowRoot.querySelector('input#title').value
             }
-            console.log(data);
-            const BASE_URL = JSON.parse(localStorage.getItem('config')).baseURL;
-            fetch( BASE_URL + 'albums/', {
-                method: 'POST',
-                body: data
-            }).then( (r) => {
-                console.log(r.json());
-                if (r.status !== 201){
-                    alert('Create Failed!');
-                }
-            }).catch( (err) => {
-                alert('Error Occured');
-            }).finally(() => {
-                shadowRoot.children[0].children[1].close();
-            })
+            const event = new CustomEvent("rebuild-table",{detail: {action: 'create'}});
+            createAlbum(data.userId,data.title);
+            document.dispatchEvent(event);
+            shadowRoot.children[0].children[1].close();
+
         }
         );
         }

@@ -255,6 +255,13 @@ document.querySelector("#auto-load").addEventListener("change",
 
 document.querySelector("#search-bar input").addEventListener('input', (event) => {
     console.log(event.target.value);
+    // ONLY AUTOLOAD AFTER SEARCH BAR IS EMPTY
+    if (event.target.value !== ''){
+        autoLoadDestructUtil();
+    }
+    else {
+        autoLoadSetupUtil();
+    }
     showFilteredItems(event.target.value);
 })
 
