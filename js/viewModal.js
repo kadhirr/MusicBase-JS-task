@@ -154,7 +154,7 @@ class ViewModal extends HTMLElement {
     const closeBtn = shadowRoot.querySelector('#closeDialog');
     closeBtn.addEventListener('click', (e) => {
 
-      console.log("before", document.querySelector('view-modal'));
+      // console.log("before", document.querySelector('view-modal'));
       shadowRoot.children[0].children[1].close();
       document.querySelector("body").classList.remove("overflow-hidden");
     })

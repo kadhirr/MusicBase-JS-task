@@ -42,7 +42,7 @@ export function deleteData(id){
 }
 
 export async function getPhotoURL(id){
-    console.log('url',JSON.parse(localStorage.getItem('config')).baseURL + `albums/${id}/photos`)
+    // console.log('url',JSON.parse(localStorage.getItem('config')).baseURL + `albums/${id}/photos`)
     const PHOTO_URL = await fetch(JSON.parse(localStorage.getItem('config')).baseURL + `albums/${id}/photos`)
     .then(r => r.json())
     .then(r => r[0].url);
@@ -55,7 +55,7 @@ export function createAlbum(userId,title) {
     }
     let data = JSON.parse(localStorage.getItem('data'));
     const lastId = Math.max(...data.payload.map(d => d.id));
-    console.log(lastId);
+    // console.log(lastId);
     let newData = {
         id: lastId + 1,
         userId,

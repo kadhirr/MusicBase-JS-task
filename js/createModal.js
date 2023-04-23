@@ -119,7 +119,7 @@ class CreateModal extends HTMLElement {
             document.querySelector("body").classList.remove("overflow-hidden");
         });
         const submitBtn = shadowRoot.querySelector('input[type=submit]');
-        console.log(submitBtn);
+        // console.log(submitBtn);
         submitBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const data = {

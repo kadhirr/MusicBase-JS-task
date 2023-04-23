@@ -17,9 +17,9 @@ document.addEventListener('rebuild-table', (e) => {
         const data = respData.payload.filter((d) => d.id == e.detail.id)[0];
         // update table row using selector
         const parentEle = document.querySelector(`td[data-id="${e.detail.id}"]`).parentElement;
-        console.log("parent",parentEle);
-        console.log("child1",parentEle.children[1]);
-        console.log("child2",parentEle.children[2]);
+        // console.log("parent",parentEle);
+        // console.log("child1",parentEle.children[1]);
+        // console.log("child2",parentEle.children[2]);
         parentEle.children[1].innerText = data.userId;
         parentEle.children[2].innerText = data.title;
         // call search
@@ -94,7 +94,7 @@ async function fillTable() {
         hideLoader();
     }
     const data = respData;
-    console.log(data, data.payload);
+    // console.log(data, data.payload);
     if (data.status == 'ok' && data !== undefined) {
         const table = document.querySelector('table');
         const tBody = document.querySelector('tbody');
@@ -104,7 +104,7 @@ async function fillTable() {
             const row = document.createElement('tr');
             const dataToInsert = [data.payload[i].id, data.payload[i].userId, data.payload[i].title]
             for (const value of dataToInsert) {
-                console.log(value)
+                // console.log(value)
                 const cell = document.createElement('td');
                 cell.dataset.id = data.payload[i].id;
                 cell.appendChild(document.createTextNode(value));
@@ -157,7 +157,7 @@ document.querySelector("#btn-load-more").addEventListener('click', (event) => {
 
 /** INTERSECTION OBSERVER */
 const intersectionObserver = new IntersectionObserver((entries) => {
-    console.log("INTERSECTION");
+    // console.log("INTERSECTION");
     if (entries[0].intersectionRatio <= 0.75) return;
     if (document.querySelector("tbody").childElementCount == respData.payload.length) {
         return;
@@ -188,7 +188,7 @@ const mutationObserverConfig = { attributes: true, childList: true, subtree: tru
 const callback = (mutationList, observer) => {
     //   console.log("MUTATELIST",mutationList);
     const prevObservedElement = document.querySelector("tr:nth-last-child(22)");
-    console.log("prev", prevObservedElement);
+    // console.log("prev", prevObservedElement);
     if (prevObservedElement !== null) {
         intersectionObserver.unobserve(prevObservedElement);
     }
@@ -225,7 +225,7 @@ document.querySelector("#auto-load").addEventListener("change",
             const targetNode = document.querySelector("table");
             // observer.observe(targetNode, config);
             autoLoadSetupUtil();
-            console.log("checked", observer, targetNode)
+            // console.log("checked", observer, targetNode)
             if (document.querySelector('tbody').children.length !== respData.payload.length) {
                 document.querySelector("#btn-load-more").style.display = 'none';
             }
@@ -251,10 +251,10 @@ document.querySelector("#auto-load").addEventListener("change",
 // })
 
 
-// SEARCH AND FILTER EVENT LISTENERS
+// SEARCH AND SORT EVENT LISTENERS ALONG WITH TABLE SORT EVENT LISTENER
 
 document.querySelector("#search-bar input").addEventListener('input', (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     // ONLY AUTOLOAD AFTER SEARCH BAR IS EMPTY
     if (event.target.value !== ''){
         autoLoadDestructUtil();
@@ -267,6 +267,11 @@ document.querySelector("#search-bar input").addEventListener('input', (event) =>
 
 document.querySelectorAll('th:not(:last-child) span').forEach((item) => {
     item.addEventListener('click', (e) => {
+        if (e.currentTarget.classList.contains('sort-indicator')){
+            // this fixes the issue where clicking on the sort indicator will not trigger the sort, so if I return which clicked
+            // on the indicator, the event bubbles up and gets captured by this span again;
+            return;
+        }
         if (globalConfig.sortCol.name == item.innerText) {
             globalConfig.sortCol.ascOrder = !globalConfig.sortCol.ascOrder;
         }
@@ -274,7 +279,7 @@ document.querySelectorAll('th:not(:last-child) span').forEach((item) => {
             globalConfig.sortCol.name = item.innerText;
             globalConfig.sortCol.ascOrder = true;
         }
-        console.log(item);
+        // console.log(item);
 
         // CLEAR PREVIOUS SORT INDICATORS
         document.querySelectorAll('.sort-indicator').forEach((item) => {
@@ -286,11 +291,11 @@ document.querySelectorAll('th:not(:last-child) span').forEach((item) => {
         sortIndicatorValue = globalConfig.sortCol.ascOrder ? '▲' : '▼';
         // console.log(item.children[0]);
         item.children[0].setAttribute('data-after', sortIndicatorValue)
-        console.log("sortconfig", globalConfig.sortCol);
+        // console.log("sortconfig", globalConfig.sortCol);
         showSortedItems(item.innerText);
+
     })
 })
-
 
 
 function showFilteredItems(searchTerm) {
@@ -311,7 +316,7 @@ function showFilteredItems(searchTerm) {
 // SORTER FUNCTION
 
 function showSortedItems(key) {
-    console.log("key", key);
+    // console.log("key", key);
     var collator = new Intl.Collator(undefined, {
         numeric: true,
         sensitivity: 'base'
@@ -343,14 +348,14 @@ function viewActionModal(e) {
     const modalEle = document.createElement('view-modal');
 
     const data = respData.payload.filter((d) => d.id == id)[0];
-    console.log("hello",id,data);
+    // console.log("hello",id,data);
     // Add userId h1 element with slot
     modalEle.dataset.id = data.id;
     modalEle.dataset.userId = data.userId;
     modalEle.dataset.title = data.title;
 
     document.querySelector('body').appendChild(modalEle);
-    console.log(modalEle);
+    // console.log(modalEle);
     document.querySelector("view-modal").shadowRoot.children[0].children[1].showModal();
 }
 
@@ -375,7 +380,7 @@ function editActionModal(e){
     modalEle.dataset.title = data.title;
 
     document.querySelector('body').appendChild(modalEle);
-    console.log(modalEle);
+    // console.log(modalEle);
     document.querySelector("edit-modal").shadowRoot.children[0].children[1].showModal();
 }
 

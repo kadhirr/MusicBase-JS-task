@@ -139,7 +139,7 @@ class Toast extends HTMLElement {
   
       const shadowRoot = this.attachShadow({ mode: "open" });
       shadowRoot.appendChild(container);
-      console.log(this.dataset);
+      // console.log(this.dataset);
       shadowRoot.querySelector('#title-content').innerText = this.dataset.title;
       // Fix for bug when scroll not restored after closing dialog with esc key
       shadowRoot.querySelector('dialog').addEventListener('close', (e) => {

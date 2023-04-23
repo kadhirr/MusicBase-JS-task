@@ -179,16 +179,16 @@ class EditModal extends HTMLElement {
 
         // SUBMIT FORM FUNCTIONALITY
         const submitBtn = shadowRoot.querySelector('input[type=submit]');
-        console.log(submitBtn);
+        // console.log(submitBtn);
         submitBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log("abc",shadowRoot.querySelector('input#id').value);
+            // console.log("abc",shadowRoot.querySelector('input#id').value);
             const data = {
                 id: parseInt(shadowRoot.querySelector('input#id').value),
                 userId: parseInt(shadowRoot.querySelector('input#userid').value),
                 title: shadowRoot.querySelector('input#title').value
             }
-            console.log(data);
+            // console.log(data);
             
             // UPDATE AND FIRE CUSTOM EVENT
             const event = new CustomEvent("rebuild-table",{detail: {action: 'update', id: this.dataset.id}});
