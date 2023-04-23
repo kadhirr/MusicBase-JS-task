@@ -1,3 +1,4 @@
+import { getPhotoURL } from "./dataHelpers.js";
 class ViewModal extends HTMLElement {
   constructor() {
     super();
@@ -71,16 +72,28 @@ class ViewModal extends HTMLElement {
               ::slotted(h1:first-child) {
                 color: red;
               }
+              img {
+                max-inline-size: 100%;
+                block-size: auto;
+                object-fit: contain;
+                height: 50vh;
+              }
             </style>
             <dialog class="animate">
-            <slot name="id"></slot>
-            <slot name="userid"></slot>
-            <slot name="title"></slot>
+              <h1 id="id">ID: ${this.dataset.id}</h1>
+              <h1 id="userid">UserID: ${this.dataset.userId}</h1>
+              <h1 id="title" class="resp-img">Title: ${this.dataset.title}</h1>
+              <img loading="lazy">
             <button id="closeDialog">Close</button>
           </dialog> `;
-
+    // SET IMAGE SOURCE
+    getPhotoURL(this.dataset.id)
+    .then(r => {
+      container.children[1].children[3].setAttribute('src',r);
+    });
     const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(container);
+    shadowRoot.appendChild(container);  
+
     // Fix for bug when scroll not restored after closing dialog with esc key
     shadowRoot.querySelector('dialog').addEventListener('close', (e) => {
       document.querySelector("body").classList.remove("overflow-hidden");

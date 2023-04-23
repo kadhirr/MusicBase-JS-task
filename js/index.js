@@ -338,22 +338,9 @@ function viewActionModal(e) {
     const data = respData.payload.filter((d) => d.id == id)[0];
     console.log("hello",id,data);
     // Add userId h1 element with slot
-    const IdEle = document.createElement('h1');
-    IdEle.innerText = 'ID: ' + data.id;
-    IdEle.setAttribute('slot', 'id');
-    modalEle.appendChild(IdEle);
-
-    // Add title h1 element with slot
-    const userIdEle = document.createElement('h1');
-    userIdEle.innerText = ' User ID: ' + data.userId;
-    userIdEle.setAttribute('slot', 'userid');
-    modalEle.appendChild(userIdEle);
-
-    // Add Title h1 element with slot
-    const titleEle = document.createElement('h1');
-    titleEle.innerText = 'Title: ' + data.title;
-    titleEle.setAttribute('slot', 'title');
-    modalEle.appendChild(titleEle);
+    modalEle.dataset.id = data.id;
+    modalEle.dataset.userId = data.userId;
+    modalEle.dataset.title = data.title;
 
     document.querySelector('body').appendChild(modalEle);
     console.log(modalEle);

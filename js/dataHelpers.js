@@ -40,3 +40,11 @@ export function deleteData(id){
         }
     }
 }
+
+export async function getPhotoURL(id){
+    console.log('url',JSON.parse(localStorage.getItem('config')).baseURL + `albums/${id}/photos`)
+    const PHOTO_URL = await fetch(JSON.parse(localStorage.getItem('config')).baseURL + `albums/${id}/photos`)
+    .then(r => r.json())
+    .then(r => r[0].url);
+    return PHOTO_URL;
+}
