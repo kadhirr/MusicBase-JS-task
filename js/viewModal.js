@@ -30,7 +30,8 @@ class ViewModal extends HTMLElement {
                 ". . close"
                 "img img img"
                 "title title title"
-                "userid userid id";
+                "userid . ."
+                "id . .";
                 border: 0.5px solid grey;
                 box-shadow: 2px 2px 2px aqua;
                 margin: auto;
@@ -49,15 +50,18 @@ class ViewModal extends HTMLElement {
               #id {
                 font-size: 1.5rem;
                 grid-area: id;
+                place-self: stretch start;
               }
 
               #userid {
                 font-size: 1.5rem;
                 grid-area: userid;
+                place-self: center start;
               }
               
               #title {
                 font-weight: bold;
+                place-self: center stretch;
                 grid-area: title;
                 font-size: 2rem;
               }
