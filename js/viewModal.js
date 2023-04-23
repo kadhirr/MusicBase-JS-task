@@ -27,11 +27,11 @@ class ViewModal extends HTMLElement {
               dialog {
                 display: grid;
                 grid-template-areas: 
-                ". . close"
-                "img img img"
-                "title title title"
-                "userid . ."
-                "id . .";
+                "close"
+                "img"
+                "title"
+                "userid"
+                "id";
                 border: 0.5px solid grey;
                 box-shadow: 2px 2px 2px aqua;
                 margin: auto;
