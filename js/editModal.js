@@ -14,6 +14,16 @@ class EditModal extends HTMLElement {
         const container = document.createElement("div");
         container.innerHTML =
             `<style>
+
+            /* DISABLE THE ARROWS ON INPUT NUMBER */
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                margin: 0; 
+            }
+            
             dialog::backdrop {
                 backdrop-filter: blur(1px);
                 overscroll-behavior: contain;
@@ -90,8 +100,16 @@ class EditModal extends HTMLElement {
                 box-shadow: 1px 2px grey;
               }
 
-              div input {
-                border: 2px solid grey;
+              input {
+                border: none;
+                border-bottom: 2px solid grey;
+                outline: none;
+                transition: 0.25s all;
+              }
+
+              input:focus {
+                border: none;
+                border-bottom: 2px solid black;
               }
               
               @keyframes animate-top {

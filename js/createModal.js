@@ -14,6 +14,16 @@ class CreateModal extends HTMLElement {
         const container = document.createElement("div");
         container.innerHTML =
             `<style>
+
+            /* DISABLE THE ARROWS ON INPUT NUMBER */
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                margin: 0; 
+            }
+
             dialog::backdrop {
                 backdrop-filter: blur(1px);
                 overscroll-behavior: contain;
@@ -78,6 +88,44 @@ class CreateModal extends HTMLElement {
 
               form div {
                 display: grid;
+                margin: 1rem;
+              }
+
+
+              label {
+                grid-row: 1;
+                transform: translateY(20px);
+                transition: 0.3s all;
+              }
+
+              input:focus + label {
+                font-size: 0.8rem;
+                transform: translateY(-5px);
+              }
+
+              input {
+                grid-row: 2;
+                border: none;
+                border-bottom: 2px solid grey;
+                outline: none;
+                transition: 0.25s all;
+              }
+
+              input:focus {
+                border: none;
+                border-bottom: 2px solid black;
+              }
+
+              input[type="submit"] {
+                margin: auto;
+                width: 30%;
+                background: transparent;
+                border: 1px solid grey;
+                transition: all 0.25s;
+              }
+
+              input[type="submit"]:hover {
+                box-shadow: 1px 2px grey;
               }
 
               button#closeDialog{
@@ -95,12 +143,12 @@ class CreateModal extends HTMLElement {
             <button id="closeDialog">X</button>
               <form type="dialog">
               <div>
-              <label for="userId">User ID</label>
               <input type="number" id="userId"></input>
+              <label for="userId">User ID</label>
               </div>
               <div>
-                <label for="title">Title</label>
                 <input type="text" id="title"></input>
+                <label for="title">Title</label>
               </div>
               <input type="submit">
               </form>

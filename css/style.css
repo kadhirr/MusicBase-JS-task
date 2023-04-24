@@ -99,7 +99,7 @@ table {
 }
 
 #navbar div#service-name {
-  transform: translateY(0.5rem);
+  /* transform: translateY(0.5rem); */
   font-weight: 600;
   color: white;
   font-size: x-large;
