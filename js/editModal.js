@@ -43,7 +43,7 @@ class EditModal extends HTMLElement {
                 "form .";
                 grid-template-columns: 9fr 1fr;
                 min-height: content;
-                min-width: 50vw;
+                min-width: 25vw;
                 border: 0.5px solid grey;
                 box-shadow: 2px 2px 2px aqua;
                 margin: auto;

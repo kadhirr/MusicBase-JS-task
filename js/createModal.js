@@ -38,7 +38,7 @@ class CreateModal extends HTMLElement {
               dialog {
                 padding: 5rem;
                 min-height: content;
-                min-width: 50vw;
+                min-width: 25vw;
                 border: 0.5px solid grey;
                 box-shadow: 2px 2px 2px aqua;
                 margin: auto;

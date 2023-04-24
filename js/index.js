@@ -260,7 +260,9 @@ document.querySelector("#search-bar input").addEventListener('input', (event) =>
         autoLoadDestructUtil();
     }
     else {
-        autoLoadSetupUtil();
+        if (globalConfig.options.autosort){
+            autoLoadSetupUtil();
+        }
     }
     showFilteredItems(event.target.value);
 })
