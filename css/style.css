@@ -100,6 +100,7 @@ table {
 
 #navbar div#service-name {
   /* transform: translateY(0.5rem); */
+  align-self: center;
   font-weight: 600;
   color: white;
   font-size: x-large;
@@ -146,6 +147,18 @@ table {
 .controls-inp-group{
   display: flex;
   place-items: center;
+  gap: 0.5rem;
+  margin: 1rem;
+}
+
+
+/* CHECKBOX STYLING */
+
+
+
+.controls-inp-group input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: green;
 }
 
 #create-item {
