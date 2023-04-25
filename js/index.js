@@ -9,10 +9,10 @@ import './editModal.js';
 document.addEventListener('rebuild-table', (e) => {
     respData = JSON.parse(localStorage.getItem('data'));
     const inputEle = document.querySelector('#search').value;
-    if (e.detail.action == 'delete'){
+    if (e.detail.action == 'delete') {
         document.querySelector(`td[data-id="${e.detail.id}"]`).parentElement.remove();
     }
-    if(e.detail.action == 'update'){
+    if (e.detail.action == 'update') {
         // data to update
         const data = respData.payload.filter((d) => d.id == e.detail.id)[0];
         // update table row using selector
@@ -83,12 +83,12 @@ function hideLoader() {
 
 async function fillTable() {
     // TEMPORARY CHANGES TO MAKE LOCALSTORAGE THE DB
-    if (respData === null && localStorage.getItem('data') !== null){
+    if (respData === null && localStorage.getItem('data') !== null) {
         respData = JSON.parse(localStorage.getItem('data'));
     }
     if (respData === null) {
         await fetchData();
-        localStorage.setItem('data',JSON.stringify(respData));
+        localStorage.setItem('data', JSON.stringify(respData));
     }
     if (document.querySelector('tbody').childElementCount == 0) {
         hideLoader();
@@ -256,11 +256,11 @@ document.querySelector("#auto-load").addEventListener("change",
 document.querySelector("#search-bar input").addEventListener('input', (event) => {
     // console.log(event.target.value);
     // ONLY AUTOLOAD AFTER SEARCH BAR IS EMPTY
-    if (event.target.value !== ''){
+    if (event.target.value !== '') {
         autoLoadDestructUtil();
     }
     else {
-        if (globalConfig.options.autosort){
+        if (globalConfig.options.autosort) {
             autoLoadSetupUtil();
         }
     }
@@ -269,7 +269,7 @@ document.querySelector("#search-bar input").addEventListener('input', (event) =>
 
 document.querySelectorAll('th:not(:last-child) span').forEach((item) => {
     item.addEventListener('click', (e) => {
-        if (e.currentTarget.classList.contains('sort-indicator')){
+        if (e.currentTarget.classList.contains('sort-indicator')) {
             // this fixes the issue where clicking on the sort indicator will not trigger the sort, so if I return which clicked
             // on the indicator, the event bubbles up and gets captured by this span again;
             return;
@@ -371,7 +371,7 @@ document.querySelector('#create-item').addEventListener('click', (e) => {
 
 
 // EDIT BUTTON CALLBACK FUNCTION
-function editActionModal(e){
+function editActionModal(e) {
     // const id = parseInt(e.target.dataset.id) - 1;
     const id = parseInt(e.target.dataset.id)
     const data = respData.payload.filter((d) => d.id == id)[0];
@@ -389,7 +389,7 @@ function editActionModal(e){
 // DELETE BUTTON CALLBACK FUNCTION
 
 
-function deleteActionModal(e){
+function deleteActionModal(e) {
     // const id = parseInt(e.target.dataset.id) - 1;
     const id = parseInt(e.target.dataset.id);
     const data = respData.payload.filter((d) => d.id == id)[0];

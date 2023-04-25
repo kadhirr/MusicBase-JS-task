@@ -140,11 +140,11 @@ class ViewModal extends HTMLElement {
           </dialog> `;
     // SET IMAGE SOURCE
     getPhotoURL(this.dataset.id)
-    .then(r => {
-      container.children[1].children[3].setAttribute('src',r);
-    });
+      .then(r => {
+        container.children[1].children[3].setAttribute('src', r);
+      });
     const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(container);  
+    shadowRoot.appendChild(container);
 
     // Fix for bug when scroll not restored after closing dialog with esc key
     shadowRoot.querySelector('dialog').addEventListener('close', (e) => {
@@ -153,8 +153,8 @@ class ViewModal extends HTMLElement {
     })
     const closeBtn = shadowRoot.querySelector('#closeDialog');
     closeBtn.addEventListener('click', (e) => {
-        shadowRoot.children[0].children[1].close();
-        document.querySelector("body").classList.remove("overflow-hidden");
+      shadowRoot.children[0].children[1].close();
+      document.querySelector("body").classList.remove("overflow-hidden");
       // console.log("before", document.querySelector('view-modal'));
     })
   }

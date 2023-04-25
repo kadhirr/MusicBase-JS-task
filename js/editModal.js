@@ -1,19 +1,19 @@
 import { patchData } from "./dataHelpers.js";
 
 class EditModal extends HTMLElement {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    connectedCallback() {
-        this._render();
-    }
+  connectedCallback() {
+    this._render();
+  }
 
-    _render() {
-        document.querySelector("body").classList.add("overflow-hidden");
-        const container = document.createElement("div");
-        container.innerHTML =
-            `<style>
+  _render() {
+    document.querySelector("body").classList.add("overflow-hidden");
+    const container = document.createElement("div");
+    container.innerHTML =
+      `<style>
 
             /* DISABLE THE ARROWS ON INPUT NUMBER */
             input[type=number]::-webkit-inner-spin-button, 
@@ -175,50 +175,50 @@ class EditModal extends HTMLElement {
               </form>
           </dialog> `;
 
-        const shadowRoot = this.attachShadow({ mode: "open" });
-        shadowRoot.appendChild(container);
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    shadowRoot.appendChild(container);
 
-        // SET VALUES OF FORM ELEMENTS
-        // console.log("this",new Map(this.dataset));
-        shadowRoot.querySelector("input#id").value = this.dataset.id;
-        shadowRoot.querySelector("input#userid").value = this.dataset.userid;
-        shadowRoot.querySelector("input#title").value = this.dataset.title;
+    // SET VALUES OF FORM ELEMENTS
+    // console.log("this",new Map(this.dataset));
+    shadowRoot.querySelector("input#id").value = this.dataset.id;
+    shadowRoot.querySelector("input#userid").value = this.dataset.userid;
+    shadowRoot.querySelector("input#title").value = this.dataset.title;
 
-        // Fix for bug when scroll not restored after closing dialog with esc key
-        shadowRoot.querySelector('dialog').addEventListener('close', (e) => {
-            document.querySelector("body").classList.remove("overflow-hidden");
-            document.querySelector('edit-modal').remove();
-        })
-        const closeBtn = shadowRoot.querySelector('#closeDialog');
-        closeBtn.addEventListener('click', (e) => {
-            shadowRoot.children[0].children[1].close();
-            document.querySelector("body").classList.remove("overflow-hidden");
-        });
+    // Fix for bug when scroll not restored after closing dialog with esc key
+    shadowRoot.querySelector('dialog').addEventListener('close', (e) => {
+      document.querySelector("body").classList.remove("overflow-hidden");
+      document.querySelector('edit-modal').remove();
+    })
+    const closeBtn = shadowRoot.querySelector('#closeDialog');
+    closeBtn.addEventListener('click', (e) => {
+      shadowRoot.children[0].children[1].close();
+      document.querySelector("body").classList.remove("overflow-hidden");
+    });
 
-        // SUBMIT FORM FUNCTIONALITY
-        const submitBtn = shadowRoot.querySelector('input[type=submit]');
-        // console.log(submitBtn);
-        submitBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            // console.log("abc",shadowRoot.querySelector('input#id').value);
-            const data = {
-                id: parseInt(shadowRoot.querySelector('input#id').value),
-                userId: parseInt(shadowRoot.querySelector('input#userid').value),
-                title: shadowRoot.querySelector('input#title').value
-            }
-            // console.log(data);
-            
-            // UPDATE AND FIRE CUSTOM EVENT
-            const event = new CustomEvent("rebuild-table",{detail: {action: 'update', id: this.dataset.id}});
+    // SUBMIT FORM FUNCTIONALITY
+    const submitBtn = shadowRoot.querySelector('input[type=submit]');
+    // console.log(submitBtn);
+    submitBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // console.log("abc",shadowRoot.querySelector('input#id').value);
+      const data = {
+        id: parseInt(shadowRoot.querySelector('input#id').value),
+        userId: parseInt(shadowRoot.querySelector('input#userid').value),
+        title: shadowRoot.querySelector('input#title').value
+      }
+      // console.log(data);
 
-            patchData(data.id,data.userId,data.title);
-            document.dispatchEvent(event);
+      // UPDATE AND FIRE CUSTOM EVENT
+      const event = new CustomEvent("rebuild-table", { detail: { action: 'update', id: this.dataset.id } });
 
-            shadowRoot.children[0].children[1].close();
-        }
-        );
-        }
+      patchData(data.id, data.userId, data.title);
+      document.dispatchEvent(event);
+
+      shadowRoot.children[0].children[1].close();
     }
+    );
+  }
+}
 
 window.customElements.define("edit-modal", EditModal);
 
